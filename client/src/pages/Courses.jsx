@@ -9,6 +9,8 @@ const Courses = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [coursesPerPage] = useState(6);
   const navigate = useNavigate();
 
   const categories = ['Programming', 'Design', 'Business', 'Marketing', 'Data Science', 'Photography'];
@@ -45,6 +47,7 @@ const Courses = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setCurrentPage(1); // Reset to first page on search
     fetchCourses();
   };
 
@@ -52,6 +55,17 @@ const Courses = () => {
     course.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Pagination logic
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = filteredCourses.slice(indexOfFirstCourse, indexOfLastCourse);
+  const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -142,63 +156,126 @@ const Courses = () => {
                 <p className="text-gray-500">Try adjusting your filters or search term</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCourses.map((course) => (
-                  <div
-                    key={course.id}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
-                  >
-                    {/* Course Thumbnail */}
-                    <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                      {course.thumbnail ? (
-                        <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <span className="text-white text-6xl">📖</span>
-                      )}
-                    </div>
-
-                    {/* Course Content */}
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
-                          {course.category || 'General'}
-                        </span>
-                        <span className="text-sm text-gray-500">{course.level || 'All Levels'}</span>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {currentCourses.map((course) => (
+                    <div
+                      key={course.id}
+                      className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                    >
+                      {/* Course Thumbnail */}
+                      <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                        {course.thumbnail ? (
+                          <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-white text-6xl">📖</span>
+                        )}
                       </div>
 
-                      <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
-                        {course.title}
-                      </h3>
-
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                        {course.description}
-                      </p>
-
-                      <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                        <span>👤 {course.instructor || 'Instructor'}</span>
-                        <span>⏱️ {course.duration || 'Self-paced'}</span>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-2xl font-bold text-gray-800">
-                            ${course.price || 0}
+                      {/* Course Content */}
+                      <div className="p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
+                            {course.category || 'General'}
                           </span>
+                          <span className="text-sm text-gray-500">{course.level || 'All Levels'}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-yellow-500">⭐</span>
-                          <span className="font-semibold">{course.rating || 0}</span>
-                          <span className="text-gray-400">({course.students || 0})</span>
-                        </div>
-                      </div>
 
-                      <button className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all">
-                        Enroll Now
-                      </button>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                          {course.title}
+                        </h3>
+
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                          {course.description}
+                        </p>
+
+                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                          <span>👤 {course.instructor || 'Instructor'}</span>
+                          <span>⏱️ {course.duration || 'Self-paced'}</span>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="text-2xl font-bold text-gray-800">
+                              ${course.price || 0}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-yellow-500">⭐</span>
+                            <span className="font-semibold">{course.rating || 0}</span>
+                            <span className="text-gray-400">({course.students || 0})</span>
+                          </div>
+                        </div>
+
+                        <button className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all">
+                          Enroll Now
+                        </button>
+                      </div>
                     </div>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center gap-2 mt-12">
+                    <button
+                      onClick={() => paginate(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                        currentPage === 1
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-white text-blue-600 hover:bg-blue-50 shadow-md'
+                      }`}
+                    >
+                      Previous
+                    </button>
+
+                    <div className="flex gap-2">
+                      {[...Array(totalPages)].map((_, index) => {
+                        const pageNumber = index + 1;
+                        // Show first page, last page, current page, and pages around current
+                        if (
+                          pageNumber === 1 ||
+                          pageNumber === totalPages ||
+                          (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                        ) {
+                          return (
+                            <button
+                              key={pageNumber}
+                              onClick={() => paginate(pageNumber)}
+                              className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                                currentPage === pageNumber
+                                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-md'
+                              }`}
+                            >
+                              {pageNumber}
+                            </button>
+                          );
+                        } else if (
+                          pageNumber === currentPage - 2 ||
+                          pageNumber === currentPage + 2
+                        ) {
+                          return <span key={pageNumber} className="px-2 py-2 text-gray-400">...</span>;
+                        }
+                        return null;
+                      })}
+                    </div>
+
+                    <button
+                      onClick={() => paginate(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                        currentPage === totalPages
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-white text-blue-600 hover:bg-blue-50 shadow-md'
+                      }`}
+                    >
+                      Next
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </>
         )}
