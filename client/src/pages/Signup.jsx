@@ -29,6 +29,7 @@ export default function Signup() {
       } else {
         navigate('/courses')
       }
+    window.location.reload()
     } catch (err) {
       setMsg(err.response?.data?.message || 'Signup failed')
     }
