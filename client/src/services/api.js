@@ -16,6 +16,12 @@ export const createCourse = (data) => api.post("/courses", data, { headers: getA
 export const updateCourse = (id, data) => api.put(`/courses/${id}`, data, { headers: getAuthHeader() });
 export const deleteCourse = (id) => api.delete(`/courses/${id}`, { headers: getAuthHeader() });
 
+// Enrollment APIs
+export const enrollInCourse = (courseId) => api.post("/enrollments", { courseId }, { headers: getAuthHeader() });
+export const getMyEnrollments = () => api.get("/enrollments/my-courses", { headers: getAuthHeader() });
+export const updateProgress = (enrollmentId, progress) => api.put(`/enrollments/${enrollmentId}/progress`, { progress }, { headers: getAuthHeader() });
+export const unenrollFromCourse = (enrollmentId) => api.delete(`/enrollments/${enrollmentId}`, { headers: getAuthHeader() });
+
 // Helper to get auth header
 export const getAuthHeader = () => {
   const token = localStorage.getItem("token");

@@ -22,15 +22,24 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
+  enrollments Enrollment[]
+  
   @@map("courses")
 }
 
-model enrollments {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  courseId Json?
-  userId   Json?
-
+model Enrollment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  courseId  String   @db.ObjectId
+  progress  Int      @default(0)
+  completed Boolean  @default(false)
+  enrolledAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  
   @@unique([userId, courseId])
+  @@map("enrollments")
 }
 
 model neww {
@@ -48,6 +57,8 @@ model User {
   role     String @default("student")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  enrollments Enrollment[]
   
   @@map("users")
 }

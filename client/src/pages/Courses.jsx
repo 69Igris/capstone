@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCourses } from '../services/api';
+import { getCourses, enrollInCourse, getMyEnrollments } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const Courses = () => {
@@ -11,6 +11,7 @@ const Courses = () => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [coursesPerPage] = useState(6);
+  const [enrolledCourseIds, setEnrolledCourseIds] = useState(new Set());
   const navigate = useNavigate();
 
   const categories = ['Programming', 'Design', 'Business', 'Marketing', 'Data Science', 'Photography'];
@@ -23,7 +24,18 @@ const Courses = () => {
       return;
     }
     fetchCourses();
+    fetchEnrollments();
   }, [selectedCategory, selectedLevel]);
+
+  const fetchEnrollments = async () => {
+    try {
+      const response = await getMyEnrollments();
+      const enrolledIds = new Set(response.data.enrollments.map(e => e.courseId));
+      setEnrolledCourseIds(enrolledIds);
+    } catch (err) {
+      console.error('Error fetching enrollments:', err);
+    }
+  };
 
   const fetchCourses = async () => {
     try {
@@ -67,8 +79,21 @@ const Courses = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleEnroll = async (courseId) => {
+    try {
+      await enrollInCourse(courseId);
+      alert('Successfully enrolled in course!');
+      // Update the enrolled courses set
+      setEnrolledCourseIds(prev => new Set([...prev, courseId]));
+      // Optionally navigate to profile
+      // navigate('/profile');
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error enrolling in course');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8 pt-24">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -207,8 +232,16 @@ const Courses = () => {
                           </div>
                         </div>
 
-                        <button className="w-full mt-4 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all">
-                          Enroll Now
+                        <button 
+                          onClick={() => !enrolledCourseIds.has(course.id) && handleEnroll(course.id)}
+                          disabled={enrolledCourseIds.has(course.id)}
+                          className={`w-full mt-4 px-4 py-3 rounded-lg font-semibold transition-all ${
+                            enrolledCourseIds.has(course.id)
+                              ? 'bg-green-100 text-green-700 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
+                          }`}
+                        >
+                          {enrolledCourseIds.has(course.id) ? '✓ Enrolled' : 'Enroll Now'}
                         </button>
                       </div>
                     </div>

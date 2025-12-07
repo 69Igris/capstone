@@ -111,11 +111,14 @@ console.log('user-before', user);
                   </Link>
                 )}
                 <div className='flex items-center gap-3'>
-                  <span className={`text-gray-700 font-medium ${
-                    isScrolled ? 'text-sm' : 'text-base'
-                  }`}>
+                  <Link 
+                    to="/profile"
+                    className={`text-gray-700 hover:text-blue-600 font-medium transition-all ${
+                      isScrolled ? 'text-sm' : 'text-base'
+                    }`}
+                  >
                     👤 {user.username}
-                  </span>
+                  </Link>
                   <motion.button 
                     onClick={handleLogout}
                     className={`bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full hover:from-red-600 hover:to-red-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl ${

@@ -36,7 +36,7 @@ export default function Signup() {
   }
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 px-4'>
+    <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 px-4 pt-24'>
       <div className='bg-white shadow-2xl rounded-2xl w-full max-w-md p-8'>
         <h2 className='text-3xl font-bold text-center text-purple-600 mb-6'>Create Account</h2>
 

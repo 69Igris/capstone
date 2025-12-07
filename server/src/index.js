@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 import router from "./routes/auth.js";
 import coursesRouter from "./routes/courses.js";
+import enrollmentsRouter from "./routes/enrollments.js";
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", router);
 app.use("/api/courses", coursesRouter);
+app.use("/api/enrollments", enrollmentsRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

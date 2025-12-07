@@ -11,6 +11,7 @@ import Signup from './pages/Signup.jsx'
 import Home  from './pages/Home.jsx'
 import CoursesPage from './pages/Courses.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
+import Profile from './pages/Profile.jsx'
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </main>
         <Footer />
