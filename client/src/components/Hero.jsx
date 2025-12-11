@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 const Hero = () => {
   return (
-    <section className='bg-gradient-to-br from-blue-50 via-white to-blue-50 pt-28 pb-20'>
+    <section className='bg-gradient-to-br from-blue-50 via-white to-blue-50 pt-24 pb-12 sm:pb-16'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
         {/* Main Heading */}
         <motion.div 
@@ -45,7 +45,7 @@ const Hero = () => {
 
         {/* Search Bar */}
         <motion.div 
-          className='max-w-2xl mx-auto mb-16'
+          className='max-w-2xl mx-auto mb-10 sm:mb-12'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -73,14 +73,14 @@ const Hero = () => {
 
         {/* Trusted By Section */}
         <motion.div 
-          className='mb-16'
+          className='mb-0'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <p className='text-gray-500 mb-8 text-lg'>Trusted by learners from</p>
+          <p className='text-gray-500 mb-4 sm:mb-6 text-base sm:text-lg text-center'>Trusted by learners from</p>
           <motion.div 
-            className='flex justify-center items-center space-x-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500'
+            className='flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 0.7, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
@@ -88,7 +88,7 @@ const Hero = () => {
             {['Microsoft', 'Walmart', 'accenture', 'Adobe', 'PayPal'].map((company, index) => (
               <motion.div 
                 key={company}
-                className={`text-2xl font-semibold ${
+                className={`text-xl sm:text-2xl md:text-3xl font-semibold ${
                   company === 'Walmart' ? 'text-blue-500 font-bold' :
                   company === 'accenture' ? 'text-purple-600' :
                   company === 'Adobe' ? 'text-red-600 font-bold' :

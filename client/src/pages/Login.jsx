@@ -36,9 +36,9 @@ export default function Login() {
   }
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gray-100 px-4 pt-24'>
-      <div className='bg-white shadow-lg rounded-xl w-full max-w-md p-8'>
-        <h2 className='text-3xl font-bold text-center text-blue-600 mb-6'>
+    <div className='flex justify-center items-center min-h-screen bg-gray-100 px-4 sm:px-6 pt-24 pb-8'>
+      <div className='bg-white shadow-lg rounded-xl w-full max-w-md p-6 sm:p-8'>
+        <h2 className='text-2xl sm:text-3xl font-bold text-center text-blue-600 mb-6'>
           Seekho Login
         </h2>
 

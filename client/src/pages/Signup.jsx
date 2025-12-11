@@ -36,9 +36,9 @@ export default function Signup() {
   }
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 px-4 pt-24'>
-      <div className='bg-white shadow-2xl rounded-2xl w-full max-w-md p-8'>
-        <h2 className='text-3xl font-bold text-center text-purple-600 mb-6'>Create Account</h2>
+    <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 px-4 sm:px-6 pt-24 pb-8'>
+      <div className='bg-white shadow-2xl rounded-2xl w-full max-w-md p-6 sm:p-8'>
+        <h2 className='text-2xl sm:text-3xl font-bold text-center text-purple-600 mb-6'>Create Account</h2>
 
         <form onSubmit={handleSubmit} className='space-y-4'>
           <input

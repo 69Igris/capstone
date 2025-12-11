@@ -106,19 +106,19 @@ const Courses = () => {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-8">
           <form onSubmit={handleSearch} className="mb-6">
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <input
                 type="text"
                 placeholder="Search courses..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm sm:text-base"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all whitespace-nowrap"
               >
                 Search
               </button>
@@ -182,53 +182,53 @@ const Courses = () => {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {currentCourses.map((course) => (
                     <div
                       key={course.id}
-                      className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                      className="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 cursor-pointer"
                     >
                       {/* Course Thumbnail */}
-                      <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                      <div className="h-40 sm:h-48 bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
                         {course.thumbnail ? (
                           <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="text-white text-6xl">📖</span>
+                          <span className="text-white text-5xl sm:text-6xl">📖</span>
                         )}
                       </div>
 
                       {/* Course Content */}
-                      <div className="p-6">
+                      <div className="p-4 sm:p-6">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
+                          <span className="px-2 sm:px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">
                             {course.category || 'General'}
                           </span>
-                          <span className="text-sm text-gray-500">{course.level || 'All Levels'}</span>
+                          <span className="text-xs sm:text-sm text-gray-500">{course.level || 'All Levels'}</span>
                         </div>
 
-                        <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 line-clamp-2">
                           {course.title}
                         </h3>
 
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                        <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-3">
                           {course.description}
                         </p>
 
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <span>👤 {course.instructor || 'Instructor'}</span>
-                          <span>⏱️ {course.duration || 'Self-paced'}</span>
+                        <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+                          <span className="truncate mr-2">👤 {course.instructor || 'Instructor'}</span>
+                          <span className="whitespace-nowrap">⏱️ {course.duration || 'Self-paced'}</span>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mb-3 sm:mb-0">
                           <div>
-                            <span className="text-2xl font-bold text-gray-800">
+                            <span className="text-xl sm:text-2xl font-bold text-gray-800">
                               ${course.price || 0}
                             </span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-yellow-500">⭐</span>
-                            <span className="font-semibold">{course.rating || 0}</span>
-                            <span className="text-gray-400">({course.students || 0})</span>
+                          <div className="flex items-center gap-1 sm:gap-2">
+                            <span className="text-yellow-500 text-sm sm:text-base">⭐</span>
+                            <span className="font-semibold text-sm sm:text-base">{course.rating || 0}</span>
+                            <span className="text-gray-400 text-xs sm:text-sm">({course.students || 0})</span>
                           </div>
                         </div>
 
@@ -250,11 +250,11 @@ const Courses = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-2 mt-12">
+                  <div className="flex flex-wrap justify-center items-center gap-2 mt-8 sm:mt-12">
                     <button
                       onClick={() => paginate(currentPage - 1)}
                       disabled={currentPage === 1}
-                      className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                         currentPage === 1
                           ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                           : 'bg-white text-blue-600 hover:bg-blue-50 shadow-md'
@@ -263,7 +263,7 @@ const Courses = () => {
                       Previous
                     </button>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-1 sm:gap-2">
                       {[...Array(totalPages)].map((_, index) => {
                         const pageNumber = index + 1;
                         // Show first page, last page, current page, and pages around current
@@ -276,7 +276,7 @@ const Courses = () => {
                             <button
                               key={pageNumber}
                               onClick={() => paginate(pageNumber)}
-                              className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                              className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                                 currentPage === pageNumber
                                   ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
                                   : 'bg-white text-gray-700 hover:bg-gray-100 shadow-md'
@@ -289,7 +289,7 @@ const Courses = () => {
                           pageNumber === currentPage - 2 ||
                           pageNumber === currentPage + 2
                         ) {
-                          return <span key={pageNumber} className="px-2 py-2 text-gray-400">...</span>;
+                          return <span key={pageNumber} className="px-1 sm:px-2 py-2 text-gray-400 text-sm sm:text-base">...</span>;
                         }
                         return null;
                       })}
@@ -298,7 +298,7 @@ const Courses = () => {
                     <button
                       onClick={() => paginate(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                         currentPage === totalPages
                           ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                           : 'bg-white text-blue-600 hover:bg-blue-50 shadow-md'

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [user, setUser] = useState(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -44,7 +45,12 @@ console.log('user-before', user);
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     setUser(null)
+    setIsMobileMenuOpen(false)
     navigate('/login')
+  }
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
   }
 
   return (
@@ -147,30 +153,97 @@ console.log('user-before', user);
           
           {/* Mobile Menu */}
           <div className='md:hidden flex items-center gap-3'>
-            {user ? (
-              <motion.button 
-                onClick={handleLogout}
-                className={`bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-all ${
-                  isScrolled ? 'text-sm' : 'text-base'
-                }`}
-                whileTap={{ scale: 0.95 }}
+            {/* Hamburger Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              <svg
+                className="w-6 h-6 text-gray-700"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                Logout
-              </motion.button>
-            ) : (
-              <motion.button 
-                onClick={() => navigate('/login')}
-                className={`text-blue-600 hover:text-blue-700 font-medium transition-all ${
-                  isScrolled ? 'text-sm' : 'text-base'
-                }`}
-                whileTap={{ scale: 0.95 }}
-              >
-                Login
-              </motion.button>
-            )}
+                {isMobileMenuOpen ? (
+                  <path d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white border-t border-gray-200 shadow-lg overflow-hidden"
+          >
+            <div className="px-4 py-4 space-y-3">
+              {user ? (
+                <>
+                  <Link
+                    to="/courses"
+                    onClick={closeMobileMenu}
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-colors"
+                  >
+                    Courses
+                  </Link>
+                  <Link
+                    to="/profile"
+                    onClick={closeMobileMenu}
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-colors"
+                  >
+                    Profile ({user.username})
+                  </Link>
+                  {user.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      onClick={closeMobileMenu}
+                      className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-lg font-medium transition-colors"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={closeMobileMenu}
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-colors"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    onClick={closeMobileMenu}
+                    className="block px-4 py-3 text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg font-medium transition-colors text-center"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   )
 }

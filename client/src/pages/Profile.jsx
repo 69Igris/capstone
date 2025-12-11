@@ -89,14 +89,14 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8 pt-24">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 pt-24">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-white text-4xl font-bold mb-4">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-white text-3xl sm:text-4xl font-bold mb-4">
             {user.username?.charAt(0).toUpperCase()}
           </div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
             {user.username}
           </h1>
           {user.role === 'admin' && (
@@ -106,13 +106,13 @@ const Profile = () => {
           )}
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Profile Information</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3 sm:gap-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Profile Information</h2>
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold"
+                className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold"
               >
                 Edit Profile
               </button>
@@ -209,7 +209,7 @@ const Profile = () => {
 
           {/* Action Buttons */}
           {isEditing && (
-            <div className="flex gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
               <button
                 onClick={handleSave}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
@@ -227,8 +227,8 @@ const Profile = () => {
         </div>
 
         {/* Stats Card */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 text-center">
             <div className="text-3xl font-bold text-blue-600 mb-2">{enrollments.length}</div>
             <div className="text-gray-600 font-medium">Courses Enrolled</div>
           </div>
@@ -247,35 +247,35 @@ const Profile = () => {
         </div>
 
         {/* Enrolled Courses Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">My Enrolled Courses</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 md:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">My Enrolled Courses</h2>
           
           {loading ? (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
             </div>
           ) : enrollments.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">📚</div>
-              <h3 className="text-xl font-bold text-gray-700 mb-2">No courses enrolled yet</h3>
-              <p className="text-gray-500 mb-6">Start learning by enrolling in courses</p>
+            <div className="text-center py-8 sm:py-12">
+              <div className="text-5xl sm:text-6xl mb-4">📚</div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-700 mb-2">No courses enrolled yet</h3>
+              <p className="text-sm sm:text-base text-gray-500 mb-6">Start learning by enrolling in courses</p>
               <button
                 onClick={() => navigate('/courses')}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
+                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
               >
                 Browse Courses
               </button>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {enrollments.map((enrollment) => (
                 <div
                   key={enrollment.id}
-                  className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all"
+                  className="border border-gray-200 rounded-lg sm:rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all"
                 >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex flex-col gap-4">
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-800 mb-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">
                         {enrollment.course?.title || 'Course Title'}
                       </h3>
                       <p className="text-gray-600 text-sm mb-3 line-clamp-2">
